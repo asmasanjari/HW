@@ -111,4 +111,7 @@ public class JdbcUserRepository implements UserRepository {
     public User findByUsername(String username) {
         return null;
     }
+    private User mapUser(ResultSet resultSet){
+
+    }
 }
