@@ -89,7 +89,8 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User findById(int id) {
-        return null;
+        String sql =
+                "SELECT * FROM users WHERE id = ?";
     }
 
     @Override
