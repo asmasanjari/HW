@@ -98,4 +98,25 @@ public class UserService {
 
         return true;
     }
+
+    public boolean changePassword(int userId,
+                                  String currentPassword,
+                                  String newPassword) {
+
+        User user = userRepository.findById(userId);
+
+        if (user == null) {
+            return false;
+        }
+
+        if (!user.getPassword().equals(currentPassword)) {
+            return false;
+        }
+
+        user.setPassword(newPassword);
+
+        userRepository.update(user);
+
+        return true;
+    }
 }
