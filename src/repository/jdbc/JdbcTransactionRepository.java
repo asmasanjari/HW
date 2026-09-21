@@ -9,7 +9,11 @@ public class JdbcTransactionRepository
         implements TransactionRepository {
     @Override
     public void save(Transaction transaction) {
-
+        String sql = """
+        INSERT INTO transactions
+        (user_id, amount, type, description, date)
+        VALUES (?, ?, ?, ?, ?)
+        """;
     }
 
     @Override
