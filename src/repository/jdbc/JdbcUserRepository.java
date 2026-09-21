@@ -58,7 +58,15 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public void update(User user) {
-
+        String sql = """
+                UPDATE users
+                SET name = ?,
+                    username = ?,
+                    password = ?,
+                    credit = ?,
+                    status = ?
+                WHERE id = ?
+                """;
     }
 
     @Override
