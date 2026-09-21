@@ -9,6 +9,7 @@ import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class JdbcUserRepository implements UserRepository {
     @Override
@@ -116,7 +117,6 @@ public class JdbcUserRepository implements UserRepository {
     }
 
 
-
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -144,8 +144,16 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User findByUsername(String username) {
-        return null;
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql)){
+                statement.setString(1, username);
+                Result result = statement.executeQuery();
+            }
+        }
     }
+
     private User mapUser(ResultSet resultSet) throws SQLException {
 
         User user = new User();
@@ -176,5 +184,6 @@ public class JdbcUserRepository implements UserRepository {
 
         return user;
 
-    }}
+    }
+}
 
