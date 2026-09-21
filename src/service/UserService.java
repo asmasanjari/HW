@@ -65,4 +65,37 @@ public class UserService {
 
         return user;
     }
+
+    public boolean increaseCredit(int userId, double amount) {
+
+        if (amount <= 0) {
+            return false;
+        }
+
+        User user = userRepository.findById(userId);
+
+        if (user == null) {
+            return false;
+        }
+
+        if (user.getStatus() == AccountStatus.INACTIVE) {
+            return false;
+        }
+
+        user.setCredit(user.getCredit() + amount);
+
+        userRepository.update(user);
+
+        Transaction transaction =
+                new Transaction(
+                        userId,
+                        amount,
+                        TransactionType.CREDIT,
+                        "Credit increase"
+                );
+
+        transactionRepository.save(transaction);
+
+        return true;
+    }
 }
