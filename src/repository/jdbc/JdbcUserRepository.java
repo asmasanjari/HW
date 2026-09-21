@@ -91,7 +91,16 @@ public class JdbcUserRepository implements UserRepository {
     public User findById(int id) {
         String sql =
                 "SELECT * FROM users WHERE id = ?";
-    }
+        try (Connection connection =
+                     DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, id);
+
+            ResultSet resultSet =
+                    statement.executeQuery();
+    }}
 
     @Override
     public List<User> findAll() {
