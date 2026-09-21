@@ -158,7 +158,28 @@ public class JdbcTransactionRepository
 
     @Override
     public List<Transaction> findByUserId(int userId) {
-        return List.of();
+        List<Transaction> transactions = new ArrayList<>();
+
+        String sql =
+                "SELECT * FROM transactions WHERE user_id = ? ORDER BY date";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, userId);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                transactions.add(mapTransaction(resultSet));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return transactions;
     }
 
     private Transaction mapTransaction(ResultSet resultSet) throws SQLException {
