@@ -129,4 +129,19 @@ public class UserService {
     public List<Transaction> getTransactionHistory(int userId) {
         return transactionRepository.findByUserId(userId);
     }
+
+    public boolean deactivateAccount(int userId) {
+
+        User user = userRepository.findById(userId);
+
+        if (user == null) {
+            return false;
+        }
+
+        user.setStatus(AccountStatus.INACTIVE);
+
+        userRepository.update(user);
+
+        return true;
+    }
 }
