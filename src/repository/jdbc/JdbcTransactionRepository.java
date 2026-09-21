@@ -60,21 +60,66 @@ public class JdbcTransactionRepository
 
     @Override
     public void update(Transaction transaction) {
+        String sql = """
+                UPDATE transactions
+                SET amount = ?,
+                    type = ?,
+                    description = ?,
+                    date = ?
+                WHERE id = ?
+                """;
 
-    }
+        try (Connection connection =
+                     DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
 
-    @Override
-    public Transaction findById(int id) {
-        return null;
-    }
+            statement.setDouble(
+                    1,
+                    transaction.getAmount()
+            );
 
-    @Override
-    public List<Transaction> findAll() {
-        return List.of();
-    }
+            statement.setString(
+                    2,
+                    transaction.getType().name()
+            );
 
-    @Override
-    public List<Transaction> findByUserId(int userId) {
-        return List.of();
-    }
+            statement.setString(
+                    3,
+                    transaction.getDescription()
+            );
+
+            statement.setTimestamp(
+                    4,
+                    Timestamp.valueOf(
+                            transaction.getDate()
+                    )
+            );
+
+            statement.setInt(
+                    5,
+                    transaction.getId()
+            );
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+}
+
+@Override
+public Transaction findById(int id) {
+    return null;
+}
+
+@Override
+public List<Transaction> findAll() {
+    return List.of();
+}
+
+@Override
+public List<Transaction> findByUserId(int userId) {
+    return List.of();
+}
 }
