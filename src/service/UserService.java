@@ -1,5 +1,6 @@
 package service;
 
+import entity.AccountStatus;
 import entity.Transaction;
 import entity.TransactionType;
 import entity.User;
@@ -41,6 +42,26 @@ public class UserService {
                 );
 
         transactionRepository.save(giftTransaction);
+
+        return user;
+    }
+
+    public User login(String username, String password) {
+
+        User user =
+                userRepository.findByUsername(username);
+
+        if (user == null) {
+            return null;
+        }
+
+        if (!user.getPassword().equals(password)) {
+            return null;
+        }
+
+        if (user.getStatus() == AccountStatus.INACTIVE) {
+            return null;
+        }
 
         return user;
     }
