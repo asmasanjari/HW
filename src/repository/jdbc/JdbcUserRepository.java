@@ -1,6 +1,7 @@
 package repository.jdbc;
 
 import config.DatabaseConnection;
+import entity.AccountStatus;
 import entity.User;
 import repository.UserRepository;
 
@@ -112,6 +113,7 @@ public class JdbcUserRepository implements UserRepository {
         return null;
     }
     private User mapUser(ResultSet resultSet) throws SQLException {
+
         User user = new User();
 
         user.setId(resultSet.getInt("id"));
@@ -131,5 +133,14 @@ public class JdbcUserRepository implements UserRepository {
                         .getTimestamp("registration_date")
                         .toLocalDateTime()
         );
-    }
-}
+
+        user.setStatus(
+                AccountStatus.valueOf(
+                        resultSet.getString("status")
+                )
+        );
+
+        return user;
+
+    }}
+
