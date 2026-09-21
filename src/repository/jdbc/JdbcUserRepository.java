@@ -67,6 +67,24 @@ public class JdbcUserRepository implements UserRepository {
                     status = ?
                 WHERE id = ?
                 """;
+        try (Connection connection =
+                     DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, user.getName());
+            statement.setString(2, user.getUsername());
+            statement.setString(3, user.getPassword());
+            statement.setDouble(4, user.getCredit());
+            statement.setString(5,
+                    user.getStatus().name());
+            statement.setInt(6, user.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
