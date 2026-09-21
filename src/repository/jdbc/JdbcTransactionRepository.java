@@ -132,4 +132,5 @@ public List<Transaction> findAll() {
 public List<Transaction> findByUserId(int userId) {
     return List.of();
 }
-}
+    private Transaction mapTransaction(ResultSet resultSet)
+    {}
