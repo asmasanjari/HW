@@ -6,6 +6,7 @@ import entity.TransactionType;
 import repository.TransactionRepository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTransactionRepository
@@ -134,7 +135,25 @@ public class JdbcTransactionRepository
 
     @Override
     public List<Transaction> findAll() {
-        return List.of();
+        List<Transaction> transactions = new ArrayList<>();
+
+        String sql = "SELECT * FROM transactions";
+
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                transactions.add(mapTransaction(resultSet));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return transactions;
     }
 
     @Override
