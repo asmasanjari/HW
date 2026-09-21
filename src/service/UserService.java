@@ -119,4 +119,7 @@ public class UserService {
 
         return true;
     }
+    public User getProfile(int userId) {
+        return userRepository.findById(userId);
+    }
 }
