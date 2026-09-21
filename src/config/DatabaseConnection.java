@@ -7,13 +7,13 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     private static final String URL =
-            "jdbc:postgresql://localhost:5432/smspanel";
+            "jdbc:postgresql://localhost:5432/postgres";
 
     private static final String USER =
             "postgres";
 
     private static final String PASSWORD =
-            "1234";
+            "AasmaA";
 
     public static Connection getConnection()
             throws SQLException {
