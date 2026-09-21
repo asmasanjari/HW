@@ -111,7 +111,25 @@ public class JdbcUserRepository implements UserRepository {
     public User findByUsername(String username) {
         return null;
     }
-    private User mapUser(ResultSet resultSet){
+    private User mapUser(ResultSet resultSet) throws SQLException {
+        User user = new User();
 
+        user.setId(resultSet.getInt("id"));
+        user.setName(resultSet.getString("name"));
+        user.setUsername(
+                resultSet.getString("username")
+        );
+        user.setPassword(
+                resultSet.getString("password")
+        );
+        user.setCredit(
+                resultSet.getDouble("credit")
+        );
+
+        user.setRegistrationDate(
+                resultSet
+                        .getTimestamp("registration_date")
+                        .toLocalDateTime()
+        );
     }
 }
