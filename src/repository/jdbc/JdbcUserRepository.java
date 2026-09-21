@@ -5,7 +5,9 @@ import entity.AccountStatus;
 import entity.User;
 import repository.UserRepository;
 
+import javax.xml.transform.Result;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcUserRepository implements UserRepository {
@@ -117,7 +119,14 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return List.of();
+        List <User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(sql){
+                Result result = statement.executeQuery();
+            }
+        }
     }
 
     @Override
