@@ -106,6 +106,8 @@ public class Main {
         } else {
             System.out.println("Login successful.");
             System.out.println("Welcome " + user.getName());
+
+            userMenu(scanner, userService, user);
         }
     }
 }
