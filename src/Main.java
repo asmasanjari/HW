@@ -110,4 +110,56 @@ public class Main {
             userMenu(scanner, userService, user);
         }
     }
+
+    public static void userMenu(
+            Scanner scanner,
+            UserService userService,
+            User user) {
+
+        while (true) {
+
+            System.out.println();
+            System.out.println("===== USER MENU =====");
+            System.out.println("1. View Profile");
+            System.out.println("2. Increase Credit");
+            System.out.println("3. Change Password");
+            System.out.println("4. Transaction History");
+            System.out.println("5. Deactivate Account");
+            System.out.println("6. Logout");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+
+                case 1:
+                    System.out.println("View Profile");
+                    break;
+
+                case 2:
+                    System.out.println("Increase Credit");
+                    break;
+
+                case 3:
+                    System.out.println("Change Password");
+                    break;
+
+                case 4:
+                    System.out.println("Transaction History");
+                    break;
+
+                case 5:
+                    System.out.println("Deactivate Account");
+                    break;
+
+                case 6:
+                    System.out.println("Logged out.");
+                    return;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
 }
