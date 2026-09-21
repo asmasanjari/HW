@@ -121,7 +121,15 @@ public class JdbcTransactionRepository
 
             ResultSet resultSet = statement.executeQuery();
 
+            if (resultSet.next()) {
+                return mapTransaction(resultSet);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+        return null;
     }
 
     @Override
