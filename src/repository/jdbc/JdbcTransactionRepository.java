@@ -2,6 +2,7 @@ package repository.jdbc;
 
 import config.DatabaseConnection;
 import entity.Transaction;
+import entity.TransactionType;
 import repository.TransactionRepository;
 
 import java.sql.*;
@@ -106,31 +107,54 @@ public class JdbcTransactionRepository
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-}
+    }
 
-@Override
-public Transaction findById(int id) {
-    String sql = "SELECT * FROM transactions WHERE id = ?";
+    @Override
+    public Transaction findById(int id) {
+        String sql = "SELECT * FROM transactions WHERE id = ?";
 
-    try (Connection connection = DatabaseConnection.getConnection();
-         PreparedStatement statement =
-                 connection.prepareStatement(sql)) {
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
 
-        statement.setInt(1, id);
+            statement.setInt(1, id);
 
-        ResultSet resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
 
+        }
+    }
+
+    @Override
+    public List<Transaction> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public List<Transaction> findByUserId(int userId) {
+        return List.of();
+    }
+
+    private Transaction mapTransaction(ResultSet resultSet) throws SQLException {
+        Transaction transaction = new Transaction();
+
+        transaction.setId(resultSet.getInt("id"));
+        transaction.setUserId(resultSet.getInt("user_id"));
+        transaction.setAmount(resultSet.getDouble("amount"));
+
+        transaction.setType(
+                TransactionType.valueOf(
+                        resultSet.getString("type")
+                )
+        );
+
+        transaction.setDescription(
+                resultSet.getString("description")
+        );
+
+        transaction.setDate(
+                resultSet.getTimestamp("date").toLocalDateTime()
+        );
+
+        return transaction;
     }
 }
-
-@Override
-public List<Transaction> findAll() {
-    return List.of();
-}
-
-@Override
-public List<Transaction> findByUserId(int userId) {
-    return List.of();
-}
-    private Transaction mapTransaction(ResultSet resultSet)
-    {}
