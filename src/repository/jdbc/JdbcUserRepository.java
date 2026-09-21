@@ -8,7 +8,12 @@ import java.util.List;
 public class JdbcUserRepository implements UserRepository {
     @Override
     public void save(User user) {
-
+        String sql = """
+                INSERT INTO users
+                (name, username, password, credit,
+                 registration_date, status)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """;
     }
 
     @Override
