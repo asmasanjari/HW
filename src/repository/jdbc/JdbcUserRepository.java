@@ -144,14 +144,28 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public User findByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE username = ?";
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)){
-                statement.setString(1, username);
-                Result result = statement.executeQuery();
+        String sql =
+                "SELECT * FROM users WHERE username = ?";
+
+        try (Connection connection =
+                     DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setString(1, username);
+
+            ResultSet resultSet =
+                    statement.executeQuery();
+
+            if (resultSet.next()) {
+                return mapUser(resultSet);
             }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+        return null;
     }
 
     private User mapUser(ResultSet resultSet) throws SQLException {
