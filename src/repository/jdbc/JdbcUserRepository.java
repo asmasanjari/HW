@@ -10,12 +10,14 @@ import java.util.List;
 public class JdbcUserRepository implements UserRepository {
     @Override
     public void save(User user) {
+
         String sql = """
                 INSERT INTO users
                 (name, username, password, credit,
                  registration_date, status)
                 VALUES (?, ?, ?, ?, ?, ?)
                 """;
+
         try (Connection connection =
                      DatabaseConnection.getConnection();
              PreparedStatement statement =
@@ -44,8 +46,16 @@ public class JdbcUserRepository implements UserRepository {
 
             ResultSet resultSet =
                     statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                user.setId(resultSet.getInt(1));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
+
     @Override
     public void update(User user) {
 
