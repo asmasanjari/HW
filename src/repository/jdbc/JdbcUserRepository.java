@@ -119,14 +119,27 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        List <User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+
         String sql = "SELECT * FROM users";
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql){
-                Result result = statement.executeQuery();
+
+        try (Connection connection =
+                     DatabaseConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            ResultSet resultSet =
+                    statement.executeQuery();
+
+            while (resultSet.next()) {
+                users.add(mapUser(resultSet));
             }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+        return users;
     }
 
     @Override
