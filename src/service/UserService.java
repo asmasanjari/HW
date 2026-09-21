@@ -7,6 +7,8 @@ import entity.User;
 import repository.TransactionRepository;
 import repository.UserRepository;
 
+import java.util.List;
+
 public class UserService {
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
@@ -119,7 +121,12 @@ public class UserService {
 
         return true;
     }
+
     public User getProfile(int userId) {
         return userRepository.findById(userId);
+    }
+
+    public List<Transaction> getTransactionHistory(int userId) {
+        return transactionRepository.findByUserId(userId);
     }
 }
