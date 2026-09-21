@@ -101,7 +101,19 @@ public class JdbcUserRepository implements UserRepository {
 
             ResultSet resultSet =
                     statement.executeQuery();
-    }}
+
+            if (resultSet.next()) {
+                return mapUser(resultSet);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+
+
 
     @Override
     public List<User> findAll() {
