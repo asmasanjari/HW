@@ -14,5 +14,12 @@ public class UserService {
         this.userRepository = userRepository;
         this.transactionRepository = transactionRepository;
     }
-    public User register(String name, String username, String password){}
+
+    public User register(String name, String username, String password) {
+        User existingUser =
+                userRepository.findByUsername(username);
+        if (existingUser != null) {
+            return null;
+        }
+    }
 }
